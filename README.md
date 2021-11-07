@@ -44,7 +44,7 @@ You can add as many environments as you want and publish to these environments r
 Call private files with the parameter ```token``` in your URL with the format ```<timestamp>_<sha256_signature>```
 
 ### Generate
-Generate a SHA256 signature with the same ```SIGNATURE_KEY``` with the format ```<path><timestamp>```
+Generate a SHA256 signature with the same ```PRIVATE_KEY``` with the format ```<path><timestamp>```
 
 ## Publish
 
