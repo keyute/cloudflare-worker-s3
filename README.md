@@ -13,10 +13,13 @@ wrangler generate projectname https://github.com/keyute/cloudflare-worker-s3.git
 ### Methods
 
 #### Environment Variables (Recommended)
-Recommended for single worker deployment or projects with untrusted access to KV. ```kv_namespaces``` can be commented out if unneeded. Remove variables defined as secrets from ```vars``` appropriately to avoid conflicts.
+Recommended for single worker deployment or projects with untrusted access to KV. Remove variables defined as secrets from ```vars``` appropriately to avoid conflicts.
 
 #### KV
 Workers KV supports exceptionally high read volumes and allows configuration of multiple workers by binding workers to the same KV.
+
+#### Using Both
+This cloudflare worker supports using KV, secrets and environment variables. It will first look for secrets and environment variables before looking up KV. Remove any environment variables if you plan to define them in KV.
 
 ### Environment
 Add these lines to the bottom of [`wrangler.toml`](https://github.com/keyute/cloudflare-worker-s3/blob/master/wrangler.toml) and replace empty values as needed.
