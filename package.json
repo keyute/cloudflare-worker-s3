@@ -7,6 +7,6 @@
   "author": "Low Xuguang <personal@keyute.io>",
   "license": "MIT",
   "dependencies": {
-    "aws4fetch": "^1.0.3"
+    "aws4fetch": "^1.0.13"
   }
 }
