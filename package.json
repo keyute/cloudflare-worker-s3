@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "cloudflare-worker-s3",
+  "version": "1.0.0",
+  "description": "Sign S3 requests with verification for private files while keeping your bucket private.",
+  "main": "index.js",
+  "author": "Low Xuguang <personal@keyute.io>",
+  "license": "MIT",
+  "dependencies": {
+    "aws4fetch": "^1.0.3"
+  }
+}

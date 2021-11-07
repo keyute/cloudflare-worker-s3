@@ -1,0 +1,11 @@
+name = "cloudflare-worker-s3"
+type = "webpack"
+workers_dev = true
+compatibility_date = "2021-11-07"
+
+[env.dev]
+zone_id = ""
+route = ""
+kv_namespaces = [
+    { binding = "KV", id = "" }
+]
