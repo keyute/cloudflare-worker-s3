@@ -10,8 +10,27 @@ wrangler generate projectname https://github.com/keyute/cloudflare-worker-s3.git
 
 ## Configure
 
-### KV
-Workers KV is the preferred method to access credentials as it supports exceptionally high read volumes and allows high configurability by binding the worker to different KVs based on routes.
+### Methods
+
+#### Environment Variables (Recommended)
+Recommended for single worker deployment or projects with untrusted access to KV. ```kv_namespaces``` can be commented out if unneeded. Remove variables defined as secrets from ```vars``` appropriately to avoid conflicts.
+
+#### KV
+Workers KV supports exceptionally high read volumes and allows configuration of multiple workers by binding workers to the same KV.
+
+### Environment
+Add these lines to the bottom of [`wrangler.toml`](https://github.com/keyute/cloudflare-worker-s3/blob/main/wrangler.toml) and replace empty values as needed.
+
+```
+[env.your_env]
+zone_id = ""
+route = ""
+vars = { "AWS_ACCESS_KEY_ID" = "", "AWS_REGION" = "", "AWS_S3_BUCKET" = "", "AWS_SECRET_ACCESS_KEY" = "", "PRIVATE_KEY" = "", "PRIVATE_REGEX" = "" }
+# secrets = ["AWS_ACCESS_KEY_ID", "AWS_REGION", "AWS_S3_BUCKET", "AWS_SECRET_ACCESS_KEY", "PRIVATE_KEY", "PRIVATE_REGEX"]
+# kv_namespaces = [
+#     { binding = "KV", id = "" }
+# ]
+```
 
 These values are required and has no defaults. Any of these values not configured will result in an exception.
 
@@ -24,27 +43,16 @@ These values are required and has no defaults. Any of these values not configure
 | PRIVATE_KEY (optional) | Your base64 encoded password |
 | PRIVATE_REGEX (optional) | Regex of your private file paths for verification |
 
-### Environment
-Add these lines to the bottom of [`wrangler.toml`](https://github.com/keyute/cloudflare-worker-s3/blob/main/wrangler.toml) and replace empty values as needed.
-
-```
-[env.your_env]
-zone_id = ""
-route = ""
-kv_namespaces = [
-    { binding = "KV", id = "" }
-]
-```
-
 You can add as many environments as you want and publish to these environments respectively.
 
-## Usage
+## Private Files
+This cloudflare worker supports signature validation for files that has an expiry date. 
 
 ### Verify
 Call private files with the parameter ```token``` in your URL with the format ```<timestamp>_<sha256_signature>```
 
 ### Generate
-Generate a SHA256 signature with the same ```PRIVATE_KEY``` with the format ```<path><timestamp>```
+Generate a SHA256 signature with the same ```PRIVATE_KEY``` and the format ```<path><timestamp>```
 
 ## Publish
 

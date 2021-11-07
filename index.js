@@ -6,7 +6,7 @@ addEventListener('fetch', function(event) {
 
 async function handleRequest(request) {
     let url = new URL(request.url);
-    const privatePath = await KV.get("PRIVATE_REGEX")
+    const privatePath = await get_key("PRIVATE_PATH")
     if (privatePath !== null && new RegExp(privatePath).test(url.pathname)) {
         const token = url.searchParams.get("token")
         if (token === null || !/^(\d{10,11})_([a-f0-9]{64})$/.test(token)) {
@@ -18,7 +18,7 @@ async function handleRequest(request) {
         }
         const key = await crypto.subtle.importKey(
             "raw",
-            base64ToArrayBuffer(await KV.get("PRIVATE_KEY")),
+            base64ToArrayBuffer(await get_key("PRIVATE_KEY")),
             { name: "HMAC", hash: "SHA-256"},
             false,
             ["verify"]
@@ -29,10 +29,10 @@ async function handleRequest(request) {
         }
     }
     const aws = new AwsClient({
-        "accessKeyId": await KV.get("AWS_ACCESS_KEY_ID"),
-        "secretAccessKey": await KV.get("AWS_SECRET_ACCESS_KEY"),
+        "accessKeyId": await get_key("AWS_ACCESS_KEY_ID"),
+        "secretAccessKey": await get_key("AWS_SECRET_ACCESS_KEY"),
     });
-    url.hostname = await KV.get("AWS_S3_BUCKET") + ".s3." + await KV.get("AWS_REGION") + ".amazonaws.com";
+    url.hostname = await get_key("AWS_S3_BUCKET") + ".s3." + await get_key("AWS_REGION") + ".amazonaws.com";
     let signedRequest = await aws.sign(url);
     return await fetch(signedRequest, { "cf": { "cacheEverything": true } });
 }
@@ -52,4 +52,17 @@ function base64ToArrayBuffer(base64) {
         bytes[i] = binaryString.charCodeAt(i)
     }
     return bytes.buffer
+}
+
+async function get_key(key) {
+    let variable = global[key]
+    if (typeof variable === 'undefined' || variable === null || variable === "") {
+        if (typeof KV === 'undefined') {
+            return null
+        } else {
+            return await KV.get(key)
+        }
+    } else {
+        return variable
+    }
 }
