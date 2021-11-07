@@ -19,7 +19,7 @@ Recommended for single worker deployment or projects with untrusted access to KV
 Workers KV supports exceptionally high read volumes and allows configuration of multiple workers by binding workers to the same KV.
 
 ### Environment
-Add these lines to the bottom of [`wrangler.toml`](https://github.com/keyute/cloudflare-worker-s3/blob/main/wrangler.toml) and replace empty values as needed.
+Add these lines to the bottom of [`wrangler.toml`](https://github.com/keyute/cloudflare-worker-s3/blob/master/wrangler.toml) and replace empty values as needed.
 
 ```
 [env.your_env]
