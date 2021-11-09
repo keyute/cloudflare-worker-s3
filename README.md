@@ -1,4 +1,5 @@
 # Cloudflare Worker S3
+Keep your S3 bucket private without any compromise within the free [limit](https://developers.cloudflare.com/workers/platform/limits).
 
 ## Wrangler
 
@@ -28,8 +29,8 @@ Add these lines to the bottom of [`wrangler.toml`](https://github.com/keyute/clo
 [env.your_env]
 zone_id = ""
 route = ""
-vars = { "AWS_ACCESS_KEY_ID" = "", "AWS_REGION" = "", "AWS_S3_BUCKET" = "", "AWS_SECRET_ACCESS_KEY" = "", "PRIVATE_KEY" = "", "PRIVATE_REGEX" = "" }
-# secrets = ["AWS_ACCESS_KEY_ID", "AWS_REGION", "AWS_S3_BUCKET", "AWS_SECRET_ACCESS_KEY", "PRIVATE_KEY", "PRIVATE_REGEX"]
+vars = { "AWS_ACCESS_KEY_ID" = "", "AWS_REGION" = "", "AWS_S3_BUCKET" = "", "AWS_SECRET_ACCESS_KEY" = "" }
+# secrets = ["AWS_ACCESS_KEY_ID", "AWS_REGION", "AWS_S3_BUCKET", "AWS_SECRET_ACCESS_KEY"]
 # kv_namespaces = [
 #     { binding = "KV", id = "" }
 # ]
@@ -45,6 +46,10 @@ These values are required and has no defaults. Any of these values not configure
 | AWS_SECRET_ACCESS_KEY | AWS Secret Key of user with permission to access your bucket |
 | PRIVATE_KEY (optional) | Your base64 encoded password |
 | PRIVATE_REGEX (optional) | Regex of your private file paths for verification |
+| MINIFY_JAVASCRIPT (optional) | Minifies response if javascript. Set any value to be ```true``` |
+| MINIFY_CSS (optional) | Minifies response if css. Set any value to be ```true``` |
+| MINIFY_HTML (optional) | Minifies response if html. Set any value to be ```true``` |
+| POLISH (optional) | Enable [polish](https://blog.cloudflare.com/introducing-polish-automatic-image-optimizati/). Accepted values are ```lossy```, ```lossless``` or ```off``` |
 
 You can add as many environments as you want and publish to these environments respectively.
 
