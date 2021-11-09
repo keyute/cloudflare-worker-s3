@@ -34,20 +34,7 @@ async function handleRequest(request) {
     });
     url.hostname = await get_key("AWS_S3_BUCKET") + ".s3." + await get_key("AWS_REGION") + ".amazonaws.com";
     let signedRequest = await aws.sign(url);
-    let polish = await get_key("POLISH")
-    if (polish === null) {
-        polish = "off"
-    }
-    let cf = { 
-        "cacheEverything": true, 
-        "minify": {
-            "javascript": await get_key("MINIFY_JAVASCRIPT") !== null,
-            "css": await get_key("MINIFY_CSS") !== null,
-            "html": await get_key("MINIFY_HTML") !== null
-        },
-        "polish": polish
-    }
-    return await fetch(signedRequest, { "cf": cf });
+    return await fetch(signedRequest, { "cf": { "cacheEverything": true } });
 }
 
 function hexStringToUint8Array(hexString) {
