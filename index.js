@@ -34,7 +34,7 @@ async function handleRequest(request) {
     });
     url.hostname = await get_key("AWS_S3_BUCKET") + ".s3." + await get_key("AWS_REGION") + ".amazonaws.com";
     let signedRequest = await aws.sign(url);
-    let polish = await get_key(polish)
+    let polish = await get_key("POLISH")
     if (polish === null) {
         polish = "off"
     }
